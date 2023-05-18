@@ -15,10 +15,10 @@ class GPT_speech_generator:
         openai.api_key = os.environ.get('OPENAI_API_KEY')
         self.querier = openai.ChatCompletion()
 
-        with open(template_path, 'r') as t:
+        with open(template_path, 'r', -1, 'utf8') as t:
             self.context_template = t.read()
 
-        with open(emotions_path, 'r') as e:
+        with open(emotions_path, 'r', -1, 'utf8') as e:
             self.emotions = json.loads(e.read())
 
 

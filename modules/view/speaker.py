@@ -34,7 +34,7 @@ class MyClient(discord.Client):
         while not self.is_closed():
             now = datetime.now()
             if( now.strftime("%H:%M") == criticalTime and not warned):
-                await channel.send(controller.controller.getWarning())
+                await channel.send(controller.controller.get_reminder_message())
                 warned = True
             if( now.strftime("%H:%M") != criticalTime and warned):
                 warned = False
