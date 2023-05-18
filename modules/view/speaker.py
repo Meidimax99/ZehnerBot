@@ -29,10 +29,15 @@ class MyClient(discord.Client):
         await self.wait_until_ready()
         channel = self.get_channel(int(CHANNEL_ID))  # channel ID goes here
         criticalTime = controller.controller.triggertime
+        print("Test")
+        warned = False
         while not self.is_closed():
             now = datetime.now()
-            #if( now.strftime("%H:%M") == criticalTime):
-            await channel.send(controller.controller.get_reminder_message())
-            await asyncio.sleep(5)  # task runs every 60 seconds
+            if( now.strftime("%H:%M") == criticalTime and not warned):
+                await channel.send(controller.controller.get_reminder_message())
+                warned = True
+            if( now.strftime("%H:%M") != criticalTime and warned):
+                warned = False
+            await asyncio.sleep(10)  # task runs every 60 seconds
 
 
