@@ -59,7 +59,9 @@ async def register_days(ctx, name: str, days: str):
             return
         days_dict[day.lower()] = True
     test = ctx.user.id
-    await ctx.response.send_message(name + " hat sich für folgende Tage verpflichtet: " + days.lower())
+    await ctx.response.defer()
+    message = controller.controller.get_register_message(name, list)
+    await ctx.followup.send(message)
 
 @tree.command(name= "missing", description= "Nenne einen Tag an dem du dem Pakt nicht beiwohnen kannst")
 async def missing(ctx, day: str):

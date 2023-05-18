@@ -32,7 +32,7 @@ class MyClient(discord.Client):
         while not self.is_closed():
             now = datetime.now()
             #if( now.strftime("%H:%M") == criticalTime):
-            await channel.send(controller.controller.getWarning())
+            await channel.send(controller.controller.get_reminder_message())
             await asyncio.sleep(5)  # task runs every 60 seconds
 
 
