@@ -26,5 +26,5 @@ pip install -r requirements.txt
 2. save your discord & Open AI api key like this
 ```
 DISCORD_API_KEY='your-api-key'
-OPEN_AI_KEY='your-api-key'
+OPENAI_API_KEY='your-api-key'
 ```
