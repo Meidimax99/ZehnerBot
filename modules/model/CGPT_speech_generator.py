@@ -109,5 +109,5 @@ class GPT_speech_generator:
 
 
 
-speech_gen = GPT_speech_generator()
-answer = speech_gen.get_start_change_days_vote_message("Paul")
+#speech_gen = GPT_speech_generator()
+#answer = speech_gen.get_start_change_days_vote_message("Paul")
