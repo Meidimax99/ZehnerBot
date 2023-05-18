@@ -1,2 +1,5 @@
 class att_list:
-    user
+    userXday,
+    present,
+    proof,
+    excused,
