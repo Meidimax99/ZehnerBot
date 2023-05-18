@@ -38,12 +38,39 @@ class GPT_speech_generator:
             person_context += " und " + persons[-1] + "."
         return person_context
 
-    def get_last_attendance_context(self, persons, n):
-        pass
+    def get_last_attendance_context(self, data):
+        attendance_context_str = "Die Anwesenheit der genannten Paktmitglieder über die letzten Tage zu denen sie sich verpflichtet haben lässt sich so zusammenfassen:\n"
+        for day in data:
+            name = day['entry'].keys()[0]
+            present = day['entry'][name]['present']
+            excused = day['entry'][name]['excused']
+            date = day['date']
 
-    def get_register_message(self, person):
+            excused_str = ""
+            if excused == "True":
+                excused_str = "entschuldigt"
+            else:
+                excused_str = "nicht entschuldigt"
+
+            present_str = ""
+            if present == "True":
+                present_str = "anwesend"
+            else:
+                present_str = "nicht anwesend"
+            attendace_context_str += name + " war am " + date + " " + excused_str + " und " + present_str + ".\n"
+
+    def get_register_message(self, person, days):
         context = self.context_template + self.emotions["festive"] + self.get_persons_context(person)
-        msg = "Schreibe eine Nachricht, die die genannte Person im Pakt willkommen heißt."
+        msg = "Schreibe eine Nachricht, die die genannte Person im Pakt willkommen heißt." 
+        
+        if len(days) == 1:
+            msg+= "Sie hat sich für den " + days[0].upper() + "verpflichtet am Pakt teilzunehmen"
+        else:
+            msg+= "Sie hat sich für folgende Tage verpflichtet: "
+            for day in days[:-1]:
+                msg += day.upper()
+            msg+= " und " + days[-1] + ". "
+
         return self.ask_gpt(msg, emotion="festive", persons=person)
 
     def get_acknowledge_off_day_message(self, person, day):
