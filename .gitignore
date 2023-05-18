@@ -2,7 +2,8 @@
 .env
 /venv/
 
-# Logs
+**__pycache__/
+
 logs
 *.log
 npm-debug.log*

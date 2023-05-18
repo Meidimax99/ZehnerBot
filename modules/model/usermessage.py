@@ -12,6 +12,7 @@ class UserMessage:
     user: DiscordUser
     message: str
     timestamp: int = 0
+    message_id: str
     
 
 variable = UserMessage(user=DiscordUser(name="Test",id="ID"), message="Message")
