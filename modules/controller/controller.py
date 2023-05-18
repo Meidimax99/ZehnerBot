@@ -13,7 +13,7 @@ class Controller:
         return "Text from the controller!"
     
     def get_register_message(self, person, days) -> str:
-        return gptBackend.get_register_message(person)
+        return gptBackend.get_register_message(person, days)
     
     def get_acknowledge_off_day_message(self, person, day):
         return gptBackend.get_acknowledge_off_day_message(person, day)
