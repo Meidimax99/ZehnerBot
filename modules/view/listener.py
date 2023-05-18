@@ -1,6 +1,7 @@
 import os
 import discord
 from discord import app_commands
+from typing import Union
 import random
 import asyncio
 from dotenv import load_dotenv
@@ -44,7 +45,22 @@ async def missing(ctx, day: str):
 
 @tree.command(name = "mistrauensvotum", description = "Falls du der Meinung bist das ein Paktmidglied den Vertrag gebrochen hat")
 async def noconfidence_start(ctx, name:str):
-     print("tets")
+
+    #TODO check for valid name 
+    user_id = 241612210869108737 #TODO funktion hier
+    print(ctx.user)
+    await ctx.response.send_message(f"Ein Mistrauensvotum gegen <@{user_id}> wurde gestartet")
+
+@tree.command(name="abstimmen", description="stimme im aktuellen mistrauensvotum ab")
+@app_commands.rename(vote="stimme")
+async def vote(ctx, vote: bool):
+
+    await ctx.response.send_message(f"<@{ctx.user.id}> hat abgestimmt")
+     
+@tree.command(name="anwesendheits_beweis", description="Dein Anwesendheitsbeweis")
+async def proof(ctx, name: str):
+    print("TODO")
+
 
 @client.event
 async def on_ready():
