@@ -4,7 +4,6 @@ import os
 import discord
 from discord import app_commands
 from typing import Union
-
 from dotenv import load_dotenv
 load_dotenv()
 DISCORD_API_KEY = os.getenv('DISCORD_API_KEY')
