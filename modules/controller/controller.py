@@ -6,7 +6,7 @@ gptBackend = GPT_speech_generator()
 
 @dataclass(kw_only=True)
 class Controller:
-    triggertime: str = "19:42"
+    triggertime: str = "10:15"
     """The Applications controller"""
 
     def getTestText(self):
