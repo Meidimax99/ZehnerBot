@@ -8,8 +8,8 @@ class GPT_speech_generator:
     gpt_model = "gpt-3.5-turbo"
 
     def __init__(self):
-        template_path = "./../data/prompts/prompt_template.txt"
-        emotions_path = "./../data/prompts/emotions_dict.txt"
+        template_path = "./data/prompts/prompt_template.txt"
+        emotions_path = "./data/prompts/emotions_dict.txt"
         
         load_dotenv()
         openai.api_key = os.environ.get('OPENAI_API_KEY')
