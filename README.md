@@ -9,7 +9,7 @@ python -m venv venv
 2. activate the environment
 Windows:
 ```
-TODO
+venv\Scripts\activate.bat
 ```
 Unix:
 ```
@@ -21,8 +21,9 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Save your API key
-create a file called .env in the working directory and save your discord & Open AI api key like this
+### Save your API key
+1. create a file called .env in the working directory 
+2. save your discord & Open AI api key like this
 ```
 DISCORD_API_KEY='your-api-key'
 OPEN_AI_KEY='your-api-key'
