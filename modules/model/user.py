@@ -18,7 +18,7 @@ class weekdays (Enum):
     Sunday = 6
 
 
-class user:
+class User:
     def __init__(self, name: str, verified: bool, proof: str, day_list: weekdays = []):
         self.name: str = name
         self.verified: bool = verified
@@ -42,7 +42,7 @@ class user:
         print()
 
 
-leo = user("leo", True, "123", [weekdays.Monday, weekdays.Friday])
+leo = User("leo", True, "123", [weekdays.Monday, weekdays.Friday])
 leo.update_verified_status(False, "321")
 leo.change_day_list([weekdays.Sunday])
 leo.add_day_to_list(weekdays.Thursday)
