@@ -117,7 +117,7 @@ class GPT_speech_generator:
         msg = "Schreibe eine Nachricht, die die genannte Person oder Personen daran erinnert, dass Sie sich verpflichtet haben um heute 10:15 da zu sein und bisher noch keinen Beweis dafür geliefert haben. Nenne die Person oder Personen bei Namen."
         return self.ask_gpt(msg, emotion="annoyed", persons=persons)
 
-    def ask_gpt(self, msg, emotion="angry", persons=None, debug=True):
+    def ask_gpt(self, msg, emotion="angry", persons=None, debug=False):
         context_str = self.context_template + self.get_persons_context(persons) + self.emotions[emotion]
         context = [{'role': 'system', 'content': context_str}]
         context.append({'role': 'user', 'content': msg})

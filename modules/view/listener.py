@@ -46,52 +46,60 @@ async def registerToChannel(ctx):
     global channelID
     channelID = ctx.channel.id
     await ctx.send("Bot has been registered to this channel")
- 
-
 
 @tree.command(name = "pakt_schließen", description = "Verpflichte dich für dem Pakt der Zehn: Nenne deinen Namen und die Tage")
 async def register_days(ctx, name: str, days: str):
+    await ctx.response.defer()
+    userid = "<@" + str(ctx.user.id) +">"
+
     list = days.split()
     days_dict = {}
     for day in list:
         if not is_valid(day):
-            await ctx.response.send_message(day + " ist kein gültiger Wochentag")
+            await ctx.followup.send(day + " ist kein gültiger Wochentag")
             return
         days_dict[day.lower()] = True
-    test = ctx.user.id
-    await ctx.response.defer()
-    message = controller.controller.get_register_message(name, list)
+    message = controller.controller.get_register_message(userid, list)
     await ctx.followup.send(message)
 
 @tree.command(name= "missing", description= "Nenne einen Tag an dem du dem Pakt nicht beiwohnen kannst")
 async def missing(ctx, day: str):
+    userid = ctx.user.id
+    await ctx.response.defer()
     if not is_valid(day):
-            await ctx.response.send_message(day + " ist kein gültiger Wochentag")
+            await ctx.followup.send(day + " ist kein Gültiger Tag")
             return
-    #function mit namen return 
-    await ctx.response.send_message(" hat sich für " + day + "aus dem Pakt zurückgezogen")
+    #function mit namen return
+    message = controller.controller.get_acknowledge_off_day_message("<@" + str(userid) +">" ,day)
+    await ctx.followup.send(message)
 
 @tree.command(name = "mistrauensvotum", description = "Falls du der Meinung bist das ein Paktmidglied den Vertrag gebrochen hat")
-async def noconfidence_start(ctx, name:str):
+async def noconfidence_start(ctx, name:str, day:str):
 
     #TODO check for valid name 
-    user_id = 241612210869108737 #TODO funktion hier
-    print(ctx.user)
-    await ctx.response.send_message(f"Ein Mistrauensvotum gegen <@{user_id}> wurde gestartet")
+    #TODO funktion hier
+    await ctx.response.defer()
+    print(name)
+    if not is_valid(day):
+            await ctx.followup.send(day + " ist kein Gültiger Tag")
+            return
+    message = controller.controller.get_start_no_convidence_vote_message(name, day)
+    await ctx.followup.send(message)
 
 @tree.command(name="abstimmen", description="stimme im aktuellen mistrauensvotum ab")
 @app_commands.rename(vote="stimme")
 async def vote(ctx, vote: bool):
-
+    userid = ctx.user.id
     await ctx.response.send_message(f"<@{ctx.user.id}> hat abgestimmt")
      
-@tree.command(name="anwesendheits_beweis", description="Dein Anwesendheitsbeweis")
-async def proof(ctx, name: str):
-    print("TODO")
+@tree.command(name="anwesenheits_beweis", description="Dein Anwesendheitsbeweis")
+async def proof(ctx):
+    userid = ctx.user.id
+    await ctx.response.send_message(f"<@{userid}> hat einen Beweis eingereicht")
+    
 
 
 @client.event
 async def on_ready():
     await tree.sync()
     print("Arr is Ready!")
-
