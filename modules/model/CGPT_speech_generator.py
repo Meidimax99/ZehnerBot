@@ -49,13 +49,11 @@ class GPT_speech_generator:
             excused = day['entry'][name]['excused']
             date = day['date']
 
-            excused_str = ""
             if excused == "True":
                 excused_str = "entschuldigt"
             else:
                 excused_str = "nicht entschuldigt"
 
-            present_str = ""
             if present == "True":
                 present_str = "anwesend"
             else:
@@ -78,7 +76,7 @@ class GPT_speech_generator:
 
     def get_acknowledge_off_day_message(self, person, day):
         msg = "Schreibe eine Nachricht die anerkennt das sich die genannte Person für den " + day + " abgemeldet hat."
-        return self.ask_gpt(msg, emotion="annoyed", persons=person)
+        return self.ask_gpt(msg, emotion="friendly", persons=person)
 
     def get_start_no_convidence_vote_message(self, person, day):
         msg = "Schreibe eine Nachricht, die alle Paktmitglieder zu einem Mißtrauensvotum gegen die genannte Person aufruft. Es geht um die Frage, dass die Person möglicherweise noch keinen ausreichenden Anwesenheitsbeweis für den " + day +" geliefert hat und jetzt alle anderen Urteilen sollen ob er den Vertrag gebrochen hat."
