@@ -40,4 +40,7 @@ class MyClient(discord.Client):
                 warned = False
             await asyncio.sleep(10)  # task runs every 60 seconds
 
+    async def proofs_missing(self):
+        await self.wait_until_ready()
+        
 

@@ -42,7 +42,19 @@ class Controller:
     def get_reminder_message(self, persons):
         return gptBackend.get_reminder_message(persons)
     
+    def proc_missing_day(userid:int ,day:str) -> str:
+        return  #TODO 
     
+    def start_no_convidence(userid: int, day:str) -> str:
+        return  #TODO
+ 
+    def proc_votes(userid: int, vote:bool) -> str:
+        return  #TODO
+    
+    def proc_proof(userid: int) -> str:
+        return  #TODO
+
+
     def getWarning(self):
         print("Get warning from gpt")
         return gptBackend.get_reminder_message(None)
