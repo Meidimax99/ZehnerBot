@@ -10,7 +10,7 @@ class DataStore:
 
     def __init__(self):
         self.user = DataTable(["name", "mo", "di", "mi", "do", "fr", "sa", "so"])
-        self.days = DataTable(["user_od", "anwesend?", "entschuldigt?"])
+        self.days = DataTable(["user_id", "anwesend?", "entschuldigt?"])
         self.votes = DataTable(["user_id", "date", "votes_for", "votes_against", "end_date"])
         self.voted = DataTable(["voted"])
         self.debt = DataTable(["debtor", "value"])
