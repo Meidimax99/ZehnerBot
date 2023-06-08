@@ -27,15 +27,18 @@ class GPT_speech_generator:
 
         if persons is None:
             person_context += " alle Paktmitglieder."
-        elif isinstance(persons, str):
-            person_context += " das Paktmitglied " + persons + "."
-        elif len(persons) == 1:
-            person_context += " das Paktmitglied "  + persons[0] + "."
-        elif len(persons) > 1:
-            person_context += " die Paktmitglieder "
-            for i in range(len(persons[:-1])):
-                person_context += " " + persons[i]
-            person_context += " und " + persons[-1] + "."
+        else:
+            if isinstance(persons, str):
+                person_context += " das Paktmitglied " + persons + "."
+            elif len(persons) == 1:
+                person_context += " das Paktmitglied "  + persons[0] + "."
+            elif len(persons) > 1:
+                person_context += " die Paktmitglieder "
+                for i in range(len(persons[:-1])):
+                    person_context += " " + persons[i]
+                person_context += " und " + persons[-1] + "."
+            person_context += " Sprich die genannten Personen in deiner Nachricht bitte mit Namen an. "
+
         return person_context
 
     def get_last_attendance_context(self, data):
@@ -46,13 +49,11 @@ class GPT_speech_generator:
             excused = day['entry'][name]['excused']
             date = day['date']
 
-            excused_str = ""
             if excused == "True":
                 excused_str = "entschuldigt"
             else:
                 excused_str = "nicht entschuldigt"
 
-            present_str = ""
             if present == "True":
                 present_str = "anwesend"
             else:
@@ -74,44 +75,40 @@ class GPT_speech_generator:
         return self.ask_gpt(msg, emotion="festive", persons=person)
 
     def get_acknowledge_off_day_message(self, person, day):
-        context = self.context_template + self.emotions["annoyed"] + self.get_persons_context(person)
         msg = "Schreibe eine Nachricht die anerkennt das sich die genannte Person für den " + day + " abgemeldet hat."
-        return self.ask_gpt(msg, emotion="annoyed", persons=person)
+        return self.ask_gpt(msg, emotion="friendly", persons=person)
 
     def get_start_no_convidence_vote_message(self, person, day):
-        context = self.context_template + self.emotions["angry"] + self.get_persons_context(person)
         msg = "Schreibe eine Nachricht, die alle Paktmitglieder zu einem Mißtrauensvotum gegen die genannte Person aufruft. Es geht um die Frage, dass die Person möglicherweise noch keinen ausreichenden Anwesenheitsbeweis für den " + day +" geliefert hat und jetzt alle anderen Urteilen sollen ob er den Vertrag gebrochen hat."
         return self.ask_gpt(msg, emotion="annoyed", persons=person)
 
     def get_no_confidence_vote_positive_outcome_message(self, person):
-        context = self.context_template + self.emotions["friendly"] + self.get_persons_context(person)
         msg = "Schreibe eine Nachricht, in der du allen Paktmitgliedern erklärst, dass das Votum gegen die genannte Person zu seinen Gunsten ausgegangen ist und sein Anwesenheitsbeweis damit akzeptiert wird."
         return self.ask_gpt(msg, emotion="angry",persons=person)
 
     def get_no_confidence_vote_negative_outcome_message(self, person):
-        context = self.context_template + self.emotions["angry"] + self.get_persons_context(person)
         msg = "Schreibe eine Nachricht, in der du allen Paktmitgliedern erklärst, dass das Votum gegen die genannte Person nicht zu seinen Gunsten ausgegangen ist und sein Anwesenheitsbeweis damit nicht akzeptiert wird. Als Folge muss er ein Essen ausgeben."
         return self.ask_gpt(msg, emotion="festive", persons=person)
 
     def get_start_change_days_vote_message(self, person):
-        context = self.context_template + self.emotions["friendly"] + self.get_persons_context(person)
         msg = "Schreibe eine Nachricht, in der du alle darüber aufklärst das die genannte Person ihre Tage für die Zukunft gerne ändern würde und nun alle Paktierer abstimmen müssen ob das erlaubt ist, denn diese Möglichkeit ist so im Pakt vereinbart, solange alle zustimmen."
         return self.ask_gpt(msg, emotion="angry", persons=person)
 
     def get_change_days_vote_positive_outcome_message(self, person):
-        context = self.context_template + self.emotions["friendly"] + self.get_persons_context(person)
         msg = "Schreibe eine Nachricht, in der du allen Paktmitgliedern erklärst, dass das Votum gegen die genannte Person zu seinen Gunsten ausgegangen ist und der Person erlaubt wird ihre Tage zu ändern."
         return self.ask_gpt(msg, emotion="annoyed", persons=person)
 
     def get_change_days_vote_negative_outcome_message(self, person):
-        context = self.context_template + self.emotions["angry"] + self.get_persons_context(person)
         msg = "Schreibe eine Nachricht, in der du allen Paktmitgliedern erklärst, dass das Votum gegen die genannte Person nicht zu seinen Gunsten ausgegangen ist und es ihr damit nicht erlaubt ist ihre Tage zu ändern."
         return self.ask_gpt(msg, emotion="friendly", persons=person)
 
     def get_all_proofs_given_message(self):
-        context = self.context_template + self.emotions["friendly"] + self.format_context
         msg = "Schreibe eine Nachricht, in der du erklärst das alle die für heute zugesagt haben inzwischen auch einen Beweis für heute eingereicht haben."
         return self.ask_gpt(msg, emotion="friendly")
+
+    def get_thanks_for_voting_message(self, persons):
+        msg = "Schreibe eine sehr kurze Nachricht, nicht länger als ein paar Sätze, in der du der genannten Person dafür dankst, dass sie ihre Stimme im laufenden Votum abgegeben hat. "
+        return self.ask_gpt(msg, emotion="friendly", persons=persons)
 
     def get_reminder_message(self, persons):
         msg = "Schreibe eine Nachricht, die die genannte Person oder Personen daran erinnert, dass Sie sich verpflichtet haben um heute 10:15 da zu sein und bisher noch keinen Beweis dafür geliefert haben. Nenne die Person oder Personen bei Namen."
@@ -128,13 +125,9 @@ class GPT_speech_generator:
             print(context_str)
             print("-"*50)
             print(answer)
-            #print(response["usage"])
             print("#"*50)
         return answer
 
-# {name:{present:x, excused:x, proof:x} }
 
-
-
-#speech_gen = GPT_speech_generator()
-#answer = speech_gen.get_start_change_days_vote_message("Paul")
+speech_gen = GPT_speech_generator()
+answer = speech_gen.get_acknowledge_off_day_message("Paul", "12.21")

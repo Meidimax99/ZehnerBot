@@ -38,6 +38,9 @@ async def regChannelOnly(ctx):
 async def test(ctx):
     await ctx.response.send_message(controller.controller.getTestText())
 
+@tree.command(name = "test_gpt", description = "Get message from GPT")
+async def testGPT(ctx):
+    await ctx.response.send_message(controller.controller.get_reminder_message(None))
 
 @tree.command(name = "register_to_channel", description = "Register the bot to the specific channel")
 async def registerToChannel(ctx):
